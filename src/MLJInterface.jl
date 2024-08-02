@@ -223,9 +223,9 @@ end
 # X and y and w must be untyped per MLJ docs
 function fit(mlj_model::MODELS, verbosity::Int, X, y, w=AbstractFloat[])
 
-    # MLJ docs are clear that 0 means silent. but 0 in LightGBM world means "warnings"
+    # MLJ docs are clear that <=0 means silent. but 0 in LightGBM world means "warnings"
     # and < 0 means fatal logs only, so we put intended silence to -1 (which is probably the closest we get)
-    verbosity = if verbosity == 0; -1 else verbosity end
+    verbosity = if verbosity <= 0; -1 else verbosity end
 
     y_lgbm, classes = prepare_targets(y, mlj_model)
     model = model_init(mlj_model, classes)
